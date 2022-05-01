@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="stage" width="400" height="400"></canvas>
+    
+
+    <script>
+        window.onload = function(){
+            var stage = document.getElementById('stage')
+            var ctx = stage.getContext("2d")
+            setInterval(game, 60)
+            document.addEventListener("keydown", keyPush)
+ssd
+
+            const ver = 1
+
+            var vx=vy=0
+            var px = 15
+            var py = 10
+            var qp = 20
+            var tp = 20
+            var ax=ay=15
+
+            var trail = []
+            tail = 5
+
+            function game(){
+                px += vx
+                py += vy
+
+                if(px < 0){
+                    px = qp-1
+                }
+                if (px > qp) {
+                    px = 0
+                }
+                if (py < 0){
+                    py = qp-1
+                }
+                if (py > qp){
+                    py = 0
+                }
+
+                ctx.fillStyle = "black"
+                ctx.fillRect(0, 0, stage.height, stage.width)
+
+                ctx.fillStyle = "red"
+                ctx.fillRect(ax*tp, ay*tp, tp,tp)
+
+                ctx.fillStyle = "gray"
+                for (var i = 0; i < trail.length; i++){
+                    ctx.fillRect(trail[i].x*tp, trail[i].y*tp, tp-1,tp-1)
+                    if(trail[i].ax == px && trail[i].ay == py){
+                        vx=vy=0
+                        tail = 5
+                    }
+                }
+
+                trail.push({x:px, y:py})
+                while(trail.length > tail){
+                    trail.shift()
+
+
+                }
+                
+                if (px == vx && py == vy){
+                    tail++
+
+                    ax = Math.floor(Math.random()*qp)
+                    ay = Math.floor(Math.random()*qp)
+
+                    
+                }
+
+            }
+
+            function keyPush(){
+                switch (event.keyCode) {
+                    case 37:
+                        vx = ver
+                        vy = 0
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
+
+        }
+    </script>
+</body>
+</html>
